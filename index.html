@@ -135,11 +135,11 @@ footer { margin-top: 44px; color: var(--muted); font-size: 13px; text-align: cen
     <div class="live"><div><span>Time</span><b id="t-now">0.00 s</b></div><div><span>Tasks sent</span><b id="t-tasks">0</b></div><div><span>Cores on this device</span><b id="t-cores">?</b></div></div>
     <div class="controls">
       <div class="ctl"><span>Workers (cores used)</span><div class="seg" id="s-workers"><button data-v="1">1</button><button data-v="2">2</button><button data-v="4" class="on">4</button><button data-v="8">8</button></div></div>
-      <div class="ctl"><span>Size of each task</span><div class="seg" id="s-task"><button data-v="strip">1 big strip per core</button><button data-v="rows" class="on">4 rows</button><button data-v="tiny">16 pixels (overhead)</button></div></div>
+      <div class="ctl"><span>Size of each task</span><div class="seg" id="s-task"><button data-v="strip">1 big strip per core</button><button data-v="rows" class="on">4 rows</button><button data-v="tiny">4 pixels (overhead)</button></div></div>
       <div class="ctl"><span>Show which core drew what</span><div class="seg" id="s-tint"><button data-v="on" class="on">Colors on</button><button data-v="off">Colors off</button></div></div>
     </div>
     <div class="go"><button class="btn gold" id="run3" type="button">Run the 3 versions</button><button class="btn dark" id="run1" type="button">Run my settings</button></div>
-    <p class="note" id="status">"Run the 3 versions" times sequential (1 worker), parallel (4-row tasks) and the overhead version (16-pixel tasks), one after another.</p>
+    <p class="note" id="status">"Run the 3 versions" times sequential (1 worker), parallel (4-row tasks) and the overhead version (4-pixel tasks), one after another.</p>
     <div class="bars" id="results"></div>
   </div>
 </section>
@@ -309,7 +309,7 @@ if __name__ == "__main__":   <span class="c"># needed on Windows</span>
   });
 
   // ---------- live lab ----------
-  var W = 960, H = 630, MAXIT = 600;
+  var W = 960, H = 630, MAXIT = 2500;
   var cv = document.getElementById("cv"), cx = cv.getContext("2d");
   var cores = navigator.hardwareConcurrency || 4;
   document.getElementById("t-cores").textContent = cores;
@@ -335,7 +335,7 @@ if __name__ == "__main__":   <span class="c"># needed on Windows</span>
     var list = [], i;
     if (task === "strip") { var s = Math.ceil(H / workers); for (i = 0; i < H; i += s) list.push([i, Math.min(H, i + s), 0, W]); }
     else if (task === "rows") { for (i = 0; i < H; i += 4) list.push([i, Math.min(H, i + 4), 0, W]); }
-    else { for (var y = 0; y < H; y++) for (var x = 0; x < W; x += 16) list.push([y, y + 1, x, Math.min(W, x + 16)]); }
+    else { for (var y = 0; y < H; y++) for (var x = 0; x < W; x += 4) list.push([y, y + 1, x, Math.min(W, x + 4)]); }
     return list;
   }
   function run(workers, task) {
@@ -383,7 +383,7 @@ if __name__ == "__main__":   <span class="c"># needed on Windows</span>
     });
   }
   var history = [];
-  function label(workers, task) { return (workers === 1 ? "Sequential (1 worker)" : workers + " workers") + (task === "strip" ? ", big strips" : task === "tiny" ? ", 16-pixel tasks" : ", 4-row tasks"); }
+  function label(workers, task) { return (workers === 1 ? "Sequential (1 worker)" : workers + " workers") + (task === "strip" ? ", big strips" : task === "tiny" ? ", 4-pixel tasks" : ", 4-row tasks"); }
   function show() {
     var base = history.filter(function (h) { return h.w === 1; })[0];
     drawBars(document.getElementById("results"), history.map(function (h) {
