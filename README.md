@@ -4,6 +4,8 @@ An interactive one-page lab that shows when parallel code is faster, and when it
 Mandelbrot fractal with real parallel workers in your browser, and backs every claim with timings measured
 in Python.
 
+**Live demo:** [mazenelnaghy-code.github.io/mandelbrot-parallel-lab/](https://mazenelnaghy-code.github.io/mandelbrot-parallel-lab/)
+
 Course project for **CCE 424 Parallel Processing**.
 
 ## Results
@@ -29,7 +31,7 @@ Measured with Python's `multiprocessing` on an Intel i7-8550U laptop (4 cores / 
 
 ## Run it
 
-Open `index.html` in any modern browser. It is a single file with no build step.
+Open the [live demo](https://mazenelnaghy-code.github.io/mandelbrot-parallel-lab/), or open `index.html` in any modern browser. It is a single file with no build step.
 
 To reproduce the Python timings, copy the code from the page into `mandel.py` and run:
 
